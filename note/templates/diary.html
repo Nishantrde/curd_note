@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+{% block title %}
+<title>Diary</title>
+{% endblock %}
+
+{% block style %}
+<style>
+    .horizontal-cards {
+        display: flex;
+        flex-direction: row;
+    }
+
+    .horizontal-cards .card {
+        margin-right: 10px; /* Adjust margin as needed */
+    }
+</style>
+{% endblock %}
+{% block body %}
+<body>
+    <div class="horizontal-cards">
+        {% for ob in notes %}
+            <div class="card" style="width: 18rem;">
+                <div class="card-body">  
+                    <h1 class="card-title">{{ob.user_notes_title|truncatechars:5}}</h1>
+                    <p class="card-text">{{ ob.user_notes|truncatechars:10 }}</p>
+                        <form action="user_note"  method="post">
+                            {% csrf_token %}
+                            <input type="hidden" id="note_title" name="note_title" value="{{ ob.user_notes_title }}"/>
+                            <input type="hidden" id="note_" name="note_" value="{{ ob.user_notes }}"/>
+                            <button type="submit">View</button>
+                        </form>
+                </div>
+            </div>
+            {% if forloop.counter|divisibleby:5 %}
+            </div><div class="horizontal-cards">
+            {% endif %}
+        {% endfor %}
+    </div>
+    
+</body>
+{% endblock %}

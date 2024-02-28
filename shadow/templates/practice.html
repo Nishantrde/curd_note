@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+
+{% block title %}practice{% endblock %}
+
+{% block content %}
+    {{peoples}}
+    <table class="container">
+        {% for people in peoples %}
+        <tr>
+            <td>{{forloop.counter}}</td>
+            <td>{{people.name}}</td>
+            <td>{{people.age}}</td>
+            <td {% if people.age <= 18 %} style="background:red" {% endif %}>
+                {% if people.age >= 18 %}
+                    👍
+                {% else %}
+                    👎
+                {% endif %}
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+    {{text|truncatechars:32}}
+{% endblock %}
