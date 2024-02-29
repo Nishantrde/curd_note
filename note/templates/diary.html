@@ -1,41 +1,81 @@
 {% extends "base.html" %}
 {% block title %}
-<title>Diary</title>
+    <title>Diary</title>
 {% endblock %}
 
 {% block style %}
-<style>
-    .horizontal-cards {
-        display: flex;
-        flex-direction: row;
-    }
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Arial', sans-serif;
+            background-color: #f0f0f0;
+        }
 
-    .horizontal-cards .card {
-        margin-right: 10px; /* Adjust margin as needed */
-    }
-</style>
+        .horizontal-cards {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-evenly;
+            padding: 20px;
+        }
+
+        .card {
+            width: 18rem;
+            margin: 10px;
+            background-color: #fff;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .card-body {
+            padding: 15px;
+        }
+
+        .card-title {
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+        }
+
+        .card-text {
+            font-size: 1rem;
+            color: #555;
+            margin-bottom: 15px;
+        }
+
+        button {
+            padding: 10px;
+            font-size: 16px;
+            background-color: #4CAF50;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+    </style>
 {% endblock %}
+
 {% block body %}
 <body>
     <div class="horizontal-cards">
         {% for ob in notes %}
-            <div class="card" style="width: 18rem;">
-                <div class="card-body">  
-                    <h1 class="card-title">{{ob.user_notes_title|truncatechars:5}}</h1>
-                    <p class="card-text">{{ ob.user_notes|truncatechars:10 }}</p>
-                        <form action="user_note"  method="post">
-                            {% csrf_token %}
-                            <input type="hidden" id="note_title" name="note_title" value="{{ ob.user_notes_title }}"/>
-                            <input type="hidden" id="note_" name="note_" value="{{ ob.user_notes }}"/>
-                            <button type="submit">View</button>
-                        </form>
+            <div class="card">
+                <div class="card-body">
+                    <h1 class="card-title">{{ ob.user_notes_title|truncatechars:20 }}</h1>
+                    <p class="card-text">{{ ob.user_notes|truncatechars:50 }}</p>
+                    <form action="user_note" method="post">
+                        {% csrf_token %}
+                        <input type="hidden" id="note_title" name="note_title" value="{{ ob.user_notes_title }}"/>
+                        <input type="hidden" id="note_" name="note_" value="{{ ob.user_notes }}"/>
+                        <button type="submit">View</button>
+                    </form>
                 </div>
             </div>
-            {% if forloop.counter|divisibleby:5 %}
-            </div><div class="horizontal-cards">
-            {% endif %}
         {% endfor %}
     </div>
-    
 </body>
 {% endblock %}
