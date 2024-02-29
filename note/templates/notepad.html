@@ -4,38 +4,68 @@
         body {
             margin: 0;
             padding: 0;
-            font-family: Arial, sans-serif;
+            font-family: 'Courier New', Courier, monospace;
+            background-color: #f8f8f8;
+            color: #333;
         }
 
         .container {
-            width: 80%;
+            width: 60%;
             margin: 50px auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         }
 
         textarea {
-            width: 100%;
-            height: 400px;
+            width: calc(100% - 20px);
             font-size: 16px;
             padding: 10px;
-            margin-bottom: 10px; /* Add margin for spacing between title and notes textarea */
+            margin-bottom: 20px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            box-sizing: border-box;
         }
 
-        /* Style for the smaller title textarea */
         textarea#note_title {
-            height: 50px; /* Adjust the height as needed */
+            height: 30px;
         }
 
         button {
-            padding: 10px;
+            padding: 12px 20px;
             font-size: 16px;
+            background-color: #4CAF50;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        /* Additional styling for the "Diary" button */
+        div.form-container {
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        button.diary-btn {
+            background-color: #3498db;
+        }
+
+        button.diary-btn:hover {
+            background-color: #2980b9;
         }
     </style>
 {% endblock %}
 
 {% block title %}
-    <title>Notepad</title>
+    <title>Beautiful Notepad</title>
 {% endblock %}
-</head>
+
 {% block body %}
 <body>
     <div class="container">
@@ -48,11 +78,11 @@
             <button type="submit">Save</button>
         </form>
     </div>
-    <div>
+    <div class="form-container">
         <form action="diary"  method="post">
             {% csrf_token %}
             <input type="hidden" id="id" name="id" value="{{ id }}"/>
-            <button type="submit">Diary</button>
+            <button class="diary-btn" type="submit">Diary</button>
         </form>
     </div>
 </body>
