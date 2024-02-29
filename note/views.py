@@ -43,5 +43,7 @@ def note_(request):
     user_dict = {"title":title, "notes":note}
     return render(request, "user_note.html", user_dict)
 
+def sign_in(request):
+    return render(request, "sign_in.html")
 
 
