@@ -9,5 +9,4 @@ urlpatterns = [
     path('notepad/',include("note.urls"))
 ]
 
-urlpatterns += static(settings.STATIC_URL, document_root = settings.STATIC_ROOT)
 
