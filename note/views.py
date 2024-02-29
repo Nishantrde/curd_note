@@ -5,13 +5,21 @@ def index(request):
     return render(request, "index.html")
 
 def notepad(request):
+    user_type = request.POST.get("name")
     name = request.POST.get("name")
     id = request.POST.get("id")
     user_dict = {"name":name, "id":id}
-    obj = User.objects.create(user_name = name, user_id = id)
-    obj.save()
-    print(obj.user_id)
-    return render(request, "notepad.html", user_dict)
+    if user_type == "log_in":
+        obj = User.objects.create(user_name = name, user_id = id)
+        obj.save()
+        print(obj.user_id)
+        return render(request, "notepad.html", user_dict)
+    elif User.objects.get(user_id = id, user_name = name):
+
+        return render(request, "notepad.html", user_dict)
+    else:
+        return render(request, "error.html")
+    
 
 def save(request):
     name = request.POST.get("name")
