@@ -5,7 +5,7 @@ def index(request):
     return render(request, "index.html")
 
 def notepad(request):
-    user_type = request.POST.get("name")
+    user_type = request.POST.get("log")
     name = request.POST.get("name")
     id = request.POST.get("id")
     user_dict = {"name":name, "id":id}
