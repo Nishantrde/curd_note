@@ -40,7 +40,7 @@ def delete(request):
     id = request.POST.get("id")
     obj = Notes.objects.get(user_id = id)
     obj.delete()
-    return render(request, "diary.html")
+    return diary(request)
 
 def diary(request):
     id = request.POST.get("id")
