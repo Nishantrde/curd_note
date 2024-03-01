@@ -42,7 +42,7 @@ def delete(request):
     ob1 = Notes.objects.filter(user_notes_title = title)
     ob1.delete()
     ob2 = Notes.objects.filter(user_notes_title = title)
-    return render(request, "diary.html", {"notes":ob2, "id":id})
+    return diary(request)
 
 def diary(request):
     id = request.POST.get("id")
