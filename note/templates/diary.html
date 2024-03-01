@@ -65,8 +65,8 @@
         {% for ob in notes %}
             <div class="card">
                 <div class="card-body">
-                    <h1 class="card-title">{{ ob.user_notes_title|truncatechars:20 }}</h1>
-                    <p class="card-text">{{ ob.user_notes|truncatechars:50 }}</p>
+                    <h1 class="card-title">{{ ob.user_notes_title|truncatechars:10 }}</h1>
+                    <p class="card-text">{{ ob.user_notes|truncatechars:20 }}</p>
                     <form action="user_note" method="post">
                         {% csrf_token %}
                         <input type="hidden" id="note_title" name="note_title" value="{{ ob.user_notes_title }}"/>
