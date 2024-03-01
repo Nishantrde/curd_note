@@ -5,7 +5,6 @@ def index(request):
     return render(request, "index.html")
 
 def notepad(request):
-    
     name = request.POST.get("name")
     id = request.POST.get("id")
     user_dict = {"name":name, "id":id}
@@ -14,6 +13,10 @@ def notepad(request):
         obj.save()
         print(obj.user_id)
         return render(request, "notepad.html", user_dict)
+    elif name == None:
+        obj = User.objects.get(user_id = id)
+        nam = obj.user_name
+        return render(request, "notepad.html", {"name":nam, "id":id})
     elif User.objects.get(user_id = id, user_name = name):
         return render(request, "notepad.html", user_dict)
     else:
@@ -44,7 +47,7 @@ def delete(request):
 
 def update(request):
     
-    return render(request, "update.html")
+    return notepad(request)
 
 def diary(request):
     id = request.POST.get("id")
