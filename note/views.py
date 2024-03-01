@@ -58,7 +58,7 @@ def diary(request):
 def note_(request):
     title = request.POST.get("note_title")
     note = request.POST.get("note_")
-    print(title, note)
+    #print(title, note)
     user_dict = {"title":title, "notes":note}
     return render(request, "user_note.html", user_dict)
 
