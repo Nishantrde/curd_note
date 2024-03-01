@@ -80,11 +80,11 @@
                         <input type="hidden" id="title" name="title" value="{{ ob.user_notes_title }}"/>
                         <button type="submit">delete</button>
                     </form>
-                    <form action="delete" method="post">
+                    <form action="update" method="post">
                         {% csrf_token %}
                         <input type="hidden" id="id" name="id" value="{{ id }}"/>
                         <input type="hidden" id="title" name="title" value="{{ ob.user_notes_title }}"/>
-                        <button type="submit">delete</button>
+                        <button type="submit">update</button>
                     </form>
                 </div>
             </div>
