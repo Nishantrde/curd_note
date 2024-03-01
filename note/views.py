@@ -37,11 +37,12 @@ def save(request):
     return render(request, "notepad.html", user_dict)
 
 def delete(request):
+    title = request.POST.get("title")
     id = request.POST.get("id")
-    ob1 = Notes.objects.filter(user_notes_title = id)
+    ob1 = Notes.objects.filter(user_notes_title = title)
     ob1.delete()
-    ob2 = Notes.objects.filter(user_notes_title = id)
-    return render(request, "diary.html", {"notes":ob2})
+    ob2 = Notes.objects.filter(user_notes_title = title)
+    return render(request, "diary.html", {"notes":ob2, "id":id})
 
 def diary(request):
     id = request.POST.get("id")
