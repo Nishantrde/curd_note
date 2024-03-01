@@ -46,7 +46,6 @@ def delete(request):
     return diary(request)
 
 def update(request):
-    
     return notepad(request)
 
 def diary(request):
