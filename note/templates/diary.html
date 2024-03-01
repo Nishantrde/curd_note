@@ -72,11 +72,11 @@
                         <input type="hidden" id="note_title" name="note_title" value="{{ ob.user_notes_title }}"/>
                         <input type="hidden" id="note_" name="note_" value="{{ ob.user_notes }}"/>
                         <button type="submit">View</button>
-                        
+                        <form action="delete" method="post">
+                            <button type="submit">delete</button>
+                        </form>
                     </form>
-                    <form action="delete" method="post">
-                        <button type="submit">delete</button>
-                    </form>
+                    
                 </div>
             </div>
         {% endfor %}
