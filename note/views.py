@@ -38,9 +38,10 @@ def save(request):
 
 def delete(request):
     id = request.POST.get("id")
-    obj = Notes.objects.get(user_id = id)
-    obj.delete()
-    return diary(request)
+    ob1 = Notes.objects.get(user_id = id)
+    ob1.delete()
+    ob2 = Notes.objects.filter(user_id=id)
+    return render(request, "diary.html", {"notes":ob2, "id":id})
 
 def diary(request):
     id = request.POST.get("id")
