@@ -73,6 +73,7 @@
                         <input type="hidden" id="note_" name="note_" value="{{ ob.user_notes }}"/>
                         <button type="submit">View</button>
                         <form action="delete" method="post">
+                            <input type="hidden" id="id" name="id" value="{{ ob.id }}"/>
                             <button type="submit">delete</button>
                         </form>
                     </form>
