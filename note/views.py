@@ -18,7 +18,7 @@ def notepad(request):
         return render(request, "notepad.html", user_dict)
     else:
         return render(request, "error.html")
-    
+
 
 def save(request):
     name = request.POST.get("name")
@@ -42,11 +42,15 @@ def delete(request):
     ob1.delete()
     return diary(request)
 
+def update(request):
+    
+    return render(request, "update.html")
+
 def diary(request):
     id = request.POST.get("id")
     obj = Notes.objects.filter(user_id=id)
-    for ob in obj:
-        print("here ", ob.user_notes)
+    # for ob in obj:
+    #     print("here ", ob.user_notes)
     return render(request, "diary.html", {"notes":obj, "id":id})
 
 def note_(request):

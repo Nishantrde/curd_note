@@ -84,6 +84,7 @@
                         {% csrf_token %}
                         <input type="hidden" id="id" name="id" value="{{ id }}"/>
                         <input type="hidden" id="title" name="title" value="{{ ob.user_notes_title }}"/>
+                        <input type="hidden" id="msg" name="msg" value="update"/>
                         <button type="submit">update</button>
                     </form>
                 </div>

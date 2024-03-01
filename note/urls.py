@@ -10,5 +10,6 @@ urlpatterns = [
     path('save', views.save, name="save"),
     path('user_note', views.note_, name="note"),
     path('delete', views.delete, name="delete"),
+    path('update', views.update, name="update"),
 ]
 
