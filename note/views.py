@@ -37,7 +37,7 @@ def save(request):
 
     user_notes = user_notes.replace('\n', '<br>')
     if Notes.objects.filter(user_notes_title = user_title):
-        Notes.objects.filter(user_notes_title = user_title).update(user_id = id, user_notes_title = user_title, user_notes = user_notes)
+        Notes.objects.get(user_notes_title = user_title).update(user_id = id, user_notes_title = user_title, user_notes = user_notes)
     else:
         obj2 = Notes.objects.create(user_id = id, user_notes_title = user_title, user_notes = user_notes)
         obj2.save()
