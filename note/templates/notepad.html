@@ -71,7 +71,7 @@
     <div class="container">
         <form action="save" method="post">
             {% csrf_token %}
-            {% if title is not None %}
+            {% if title is None %}
             <textarea id="note_title" name="note_title" placeholder="Your Title here...">
             </textarea>
             {% else %}
