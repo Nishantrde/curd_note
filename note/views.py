@@ -32,12 +32,13 @@ def save(request):
     id = request.POST.get("id")
     user_notes = request.POST.get("notes")
     user_title = request.POST.get("note_title")
+    title = request.POST.get("title")
 
     user_dict = {"name":name, "id":id}
 
     user_notes = user_notes.replace('\n', '<br>')
-    if Notes.objects.filter(user_notes_title = user_title):
-        Notes.objects.get(user_notes_title = user_title).update(user_id = id, user_notes_title = user_title, user_notes = user_notes)
+    if Notes.objects.get(user_notes_title = title):
+        Notes.objects.get(user_notes_title = title).update(user_id = id, user_notes_title = user_title, user_notes = user_notes)
     else:
         obj2 = Notes.objects.create(user_id = id, user_notes_title = user_title, user_notes = user_notes)
         obj2.save()
