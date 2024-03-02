@@ -17,7 +17,7 @@ def notepad(request):
         obj = User.objects.get(user_id = id)
         nam = obj.user_name
         return render(request, "notepad.html", {"name":nam, "id":id})
-    elif User.objects.filter(user_id = id, user_name = name):
+    elif User.objects.get(user_id = id, user_name = name):
         return render(request, "notepad.html", user_dict)
     else:
         return render(request, "error.html")
