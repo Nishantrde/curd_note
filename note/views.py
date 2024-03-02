@@ -50,10 +50,11 @@ def update(request):
 
 def diary(request):
     id = request.POST.get("id")
+    name = request.POST.get("name")
     obj = Notes.objects.filter(user_id=id)
     # for ob in obj:
     #     print("here ", ob.user_notes)
-    return render(request, "diary.html", {"notes":obj, "id":id})
+    return render(request, "diary.html", {"notes":obj, "id":id, "name":name})
 
 def note_(request):
     title = request.POST.get("note_title")

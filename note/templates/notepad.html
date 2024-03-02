@@ -81,6 +81,7 @@
     <div class="form-container">
         <form action="diary"  method="post">
             {% csrf_token %}
+            <input type="hidden" id="name" name="name" value="{{ name }}"/>
             <input type="hidden" id="id" name="id" value="{{ id }}"/>
             <button class="diary-btn" type="submit">Diary</button>
         </form>
