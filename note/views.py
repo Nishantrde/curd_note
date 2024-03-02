@@ -36,8 +36,13 @@ def save(request):
     user_dict = {"name":name, "id":id}
 
     user_notes = user_notes.replace('\n', '<br>')
-    obj2 = Notes.objects.create(user_id = id, user_notes_title = user_title, user_notes = user_notes)
-    obj2.save()
+    if Notes.objects.get(user_id = id):
+        obj1 = Notes.objects.get(user_notes_title = user_title)
+        obj1.user_notes_title = user_title
+        obj1.user_notes = user_notes
+    else:
+        obj2 = Notes.objects.create(user_id = id, user_notes_title = user_title, user_notes = user_notes)
+        obj2.save()
     
     return render(request, "notepad.html", user_dict)
 
