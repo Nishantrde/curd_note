@@ -71,12 +71,10 @@
     <div class="container">
         <form action="save" method="post">
             {% csrf_token %}
-            {% if title %}
+            {% if title is None %}
             <textarea id="note_title" name="note_title" placeholder="Your Title here..."></textarea>
-            
             {% else %}
             <textarea id="note_title" name="note_title" placeholder="{{title}}"></textarea>
-            
             {% endif %}        
             <textarea id="notepad" name="notes" placeholder="Your Notes here..."></textarea>
             <input type="hidden" id="name" name="name" value="{{ name }}"/>
