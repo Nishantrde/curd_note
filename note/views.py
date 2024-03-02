@@ -39,7 +39,6 @@ def save(request):
     obj2 = Notes.objects.create(user_id = id, user_notes_title = user_title, user_notes = user_notes)
     obj2.save()
     
-    
     return render(request, "notepad.html", user_dict)
 
 def delete(request):
