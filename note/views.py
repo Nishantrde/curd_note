@@ -35,11 +35,10 @@ def save(request):
 
     user_dict = {"name":name, "id":id}
 
-    obj1 = User.objects.get(user_id=id)
     user_notes = user_notes.replace('\n', '<br>')
     obj2 = Notes.objects.create(user_id = id, user_notes_title = user_title, user_notes = user_notes)
     obj2.save()
-    obj1.save()
+    
     
     return render(request, "notepad.html", user_dict)
 
