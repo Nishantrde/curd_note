@@ -4,11 +4,15 @@ from note.models import *
 def index(request):
     return render(request, "index.html")
 
-def notepad(request):
+def notepad(request, msg = None):
     name = request.POST.get("name")
     id = request.POST.get("id")
     user_dict = {"name":name, "id":id}
-    if request.POST.get("log"):
+    if msg == "update":
+        title = request.POST.get("title")
+        notes = request.POST.get("notes")
+        return render(request, "notepad.html", {"name":name, "id":id, "title":title, "notes":notes})
+    elif request.POST.get("log"):
         obj = User.objects.create(user_name = name, user_id = id)
         obj.save()
         print(obj.user_id)
@@ -46,7 +50,7 @@ def delete(request):
     return diary(request)
 
 def update(request):
-    return notepad(request)
+    return notepad(request, "update")
 
 def diary(request):
     id = request.POST.get("id")
