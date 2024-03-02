@@ -26,28 +26,22 @@ def notepad(request, msg = None):
     else:
         return render(request, "error.html")
 
+
 def save(request):
     name = request.POST.get("name")
-    user_id = request.POST.get("id")
+    id = request.POST.get("id")
     user_notes = request.POST.get("notes")
     user_title = request.POST.get("note_title")
 
-    user_dict = {"name": name, "id": user_id}
+    user_dict = {"name":name, "id":id}
 
     user_notes = user_notes.replace('\n', '<br>')
-
-    # Check if a note with the given title and user_id exists
-    existing_note = Notes.objects.filter(user_notes_title=user_title, user_id=user_id).first()
-
-    if existing_note:
-        # If it exists, update the existing note
-        existing_note.user_notes = user_notes
-        existing_note.save()
+    if Notes.objects.filter(user_notes_title = user_title):
+        Notes.objects.filter(user_notes_title = user_title).update(user_id = id, user_notes_title = user_title, user_notes = user_notes)
     else:
-        # If it doesn't exist, create a new note
-        obj2 = Notes.objects.create(user_id=user_id, user_notes_title=user_title, user_notes=user_notes)
+        obj2 = Notes.objects.create(user_id = id, user_notes_title = user_title, user_notes = user_notes)
         obj2.save()
-
+    
     return render(request, "notepad.html", user_dict)
 
 def delete(request):
