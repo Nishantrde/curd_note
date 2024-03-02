@@ -72,7 +72,7 @@
         <form action="save" method="post">
             {% csrf_token %}
             <textarea id="note_title" name="note_title" placeholder="Your Title here...">
-                {% if title not None %}
+                {% if title is not None %}
                 {{title}}
                 {% endif %}
             </textarea>
