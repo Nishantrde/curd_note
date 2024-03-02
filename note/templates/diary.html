@@ -77,6 +77,7 @@
                     <form action="delete" method="post">
                         {% csrf_token %}
                         <input type="hidden" id="id" name="id" value="{{ id }}"/>
+                        <input type="hidden" id="name" name="name" value="{{ name }}"/>
                         <input type="hidden" id="title" name="title" value="{{ ob.user_notes_title }}"/>
                         <button type="submit">delete</button>
                     </form>
