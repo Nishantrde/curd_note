@@ -37,7 +37,7 @@ def save(request):
 
     user_notes = user_notes.replace('\n', '<br>')
     if Notes.objects.filter(user_id = id):
-        obj1 = Notes.objects.get(user_notes_title = user_title)
+        obj1 = Notes.objects.get(user_id = id)
         obj1.user_notes_title = user_title
         obj1.user_notes = user_notes
     else:
