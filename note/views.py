@@ -7,7 +7,7 @@ def index(request):
 def notepad(request, msg = None):
     name = request.POST.get("name")
     id = request.POST.get("id")
-    user_dict = {"name":name, "id":id}
+    user_dict = {"name":name, "id":id, "title":None, "notes":None}
     if msg == "update":
         title = request.POST.get("title")
         notes = request.POST.get("notes")
