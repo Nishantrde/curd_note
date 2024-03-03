@@ -122,6 +122,130 @@
         {% endfor %}
     </div>
 
+   
+
+User
+{% extends "base.html" %}
+{% block title %}
+    <title>Diary</title>
+{% endblock %}
+
+{% block style %}
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Arial', sans-serif;
+            background-color: #f0f0f0;
+        }
+
+        .horizontal-cards {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-evenly;
+            padding: 20px;
+        }
+
+        .card {
+            width: 18rem;
+            margin: 10px;
+            background-color: #fff;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .card-body {
+            padding: 15px;
+        }
+
+        .card-title {
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+        }
+
+        .card-text {
+            font-size: 1rem;
+            color: #555;
+            margin-bottom: 15px;
+        }
+
+        button {
+            padding: 10px;
+            font-size: 16px;
+            background-color: #4CAF50;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+    </style>
+{% endblock %}
+
+{% block body %}
+<body>
+    <div class="horizontal-cards">
+        {% for ob in notes %}
+            <div class="card">
+                <div class="card-body">
+                    <h1 class="card-title">{{ ob.user_notes_title|truncatechars:10 }}</h1>
+                    <p class="card-text">{{ ob.user_notes|truncatechars:20 }}</p>
+                    <form action="user_note" method="post">
+                        {% csrf_token %}
+                        <input type="hidden" id="note_title" name="note_title" value="{{ ob.user_notes_title }}"/>
+                        <input type="hidden" id="note_" name="note_" value="{{ ob.user_notes }}"/>
+                        <button type="submit">View</button>
+                        
+                    </form>
+                    <form action="delete" method="post">
+                        {% csrf_token %}
+                        <input type="hidden" id="id" name="id" value="{{ id }}"/>
+                        <input type="hidden" id="name" name="name" value="{{ name }}"/>
+                        <input type="hidden" id="title" name="title" value="{{ ob.user_notes_title }}"/>
+                        <button type="submit">delete</button>
+                    </form>
+                    <form action="update" method="post">
+                        {% csrf_token %}
+                        <input type="hidden" id="id" name="id" value="{{ id }}"/>
+                        <input type="hidden" id="name" name="name" value="{{ name }}"/>
+                        <input type="hidden" id="title" name="title" value="{{ ob.user_notes_title }}"/>
+                        <input type="hidden" id="notes" name="notes" value="{{ ob.user_notes }}"/>
+                        <input type="hidden" id="msg" name="msg" value="update"/>
+                        <button type="submit">update</button>
+                    </form>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+</body>
+{% endblock %}
+create a scearch title tab here  and if search matches make an animation to scroll down till yo get the card and flash once  indicating the card 
+
+2 / 2
+
+ChatGPT
+To implement a search functionality and an animation to scroll down to the matching card with a flashing effect, you can use JavaScript along with your existing HTML and CSS. Here's an example of how you can achieve this:
+
+Add a search input and button at the beginning of your HTML file, above the card section:
+html
+Copy code
+{% block body %}
+<body>
+    <div class="search-container">
+        <input type="text" id="searchInput" placeholder="Search by title...">
+        <button onclick="searchCards()">Search</button>
+    </div>
+
+    <div class="horizontal-cards">
+        {% for ob in notes %}
+            <!-- ... Your existing card template ... -->
+        {% endfor %}
+    </div>
+
     <script>
         function searchCards() {
             var searchTerm = document.getElementById("searchInput").value.toLowerCase();
@@ -130,14 +254,8 @@
             cards.forEach(function(card) {
                 var title = card.querySelector('.card-title').innerText.toLowerCase();
                 var cardBody = card.querySelector('.card-body');
-    
+
                 if (title.includes(searchTerm)) {
-                    // Clear previous highlights and flashes
-                    cards.forEach(function(c) {
-                        c.querySelector('.card-body').classList.remove('highlight');
-                        c.querySelector('.card-body').style.animation = '';
-                    });
-    
                     cardBody.classList.add('highlight');
                     scrollIntoView(card);
                     flashCard(cardBody);
@@ -146,11 +264,11 @@
                 }
             });
         }
-    
+
         function scrollIntoView(element) {
             element.scrollIntoView({ behavior: 'smooth', block: 'start' });
         }
-    
+
         function flashCard(element) {
             element.style.animation = 'flash 1s';
             setTimeout(() => {
@@ -158,8 +276,348 @@
             }, 1000);
         }
     </script>
+</body>
+{% endblock %}
+Add a CSS animation for the flashing effect:
+html
+Copy code
+{% block style %}
+    <style>
+        /* ... Your existing styles ... */
+
+        .highlight {
+            border: 2px solid #FFD700; /* Highlight the border for matched cards */
+        }
+
+        @keyframes flash {
+            0% { background-color: inherit; }
+            50% { background-color: #FFFF00; } /* Flashing color */
+            100% { background-color: inherit; }
+        }
+    </style>
+{% endblock %}
+This example uses JavaScript to search for cards with titles matching the search term, highlights the matching cards, scrolls to the first matching card with a smooth animation, and adds a flashing effect to the card body. Feel free to adjust the animation duration and colors based on your preferences.
+
+User
+write full code at once 
+ChatGPT
+Certainly! Below is the full HTML code incorporating the search functionality, smooth scrolling, and flashing effect:
+
+html
+Copy code
+{% extends "base.html" %}
+{% block title %}
+    <title>Diary</title>
+{% endblock %}
+
+{% block style %}
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Arial', sans-serif;
+            background-color: #f0f0f0;
+        }
+
+        .search-container {
+            margin: 20px;
+            text-align: center;
+        }
+
+        #searchInput {
+            padding: 10px;
+            font-size: 16px;
+        }
+
+        button {
+            padding: 10px;
+            font-size: 16px;
+            background-color: #4CAF50;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        .horizontal-cards {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-evenly;
+            padding: 20px;
+        }
+
+        .card {
+            width: 18rem;
+            margin: 10px;
+            background-color: #fff;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            overflow: hidden;
+            transition: border 0.5s;
+        }
+
+        .card-body {
+            padding: 15px;
+        }
+
+        .card-title {
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+        }
+
+        .card-text {
+            font-size: 1rem;
+            color: #555;
+            margin-bottom: 15px;
+        }
+
+        .highlight {
+            border: 2px solid #FFD700; /* Highlight the border for matched cards */
+        }
+
+        @keyframes flash {
+            0% { background-color: inherit; }
+            50% { background-color: #FFFF00; } /* Flashing color */
+            100% { background-color: inherit; }
+        }
+    </style>
+{% endblock %}
+
+{% block body %}
+<body>
+    <div class="search-container">
+        <input type="text" id="searchInput" placeholder="Search by title...">
+        <button onclick="searchCards()">Search</button>
+    </div>
+
+    <div class="horizontal-cards">
+        {% for ob in notes %}
+            <div class="card">
+                <div class="card-body">
+                    <h1 class="card-title">{{ ob.user_notes_title|truncatechars:10 }}</h1>
+                    <p class="card-text">{{ ob.user_notes|truncatechars:20 }}</p>
+                    <form action="user_note" method="post">
+                        {% csrf_token %}
+                        <input type="hidden" id="note_title" name="note_title" value="{{ ob.user_notes_title }}"/>
+                        <input type="hidden" id="note_" name="note_" value="{{ ob.user_notes }}"/>
+                        <button type="submit">View</button>
+                    </form>
+                    <form action="delete" method="post">
+                        {% csrf_token %}
+                        <input type="hidden" id="id" name="id" value="{{ id }}"/>
+                        <input type="hidden" id="name" name="name" value="{{ name }}"/>
+                        <input type="hidden" id="title" name="title" value="{{ ob.user_notes_title }}"/>
+                        <button type="submit">delete</button>
+                    </form>
+                    <form action="update" method="post">
+                        {% csrf_token %}
+                        <input type="hidden" id="id" name="id" value="{{ id }}"/>
+                        <input type="hidden" id="name" name="name" value="{{ name }}"/>
+                        <input type="hidden" id="title" name="title" value="{{ ob.user_notes_title }}"/>
+                        <input type="hidden" id="notes" name="notes" value="{{ ob.user_notes }}"/>
+                        <input type="hidden" id="msg" name="msg" value="update"/>
+                        <button type="submit">update</button>
+                    </form>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+
+    <script>
+        function searchCards() {
+            var searchTerm = document.getElementById("searchInput").value.toLowerCase();
+            var cards = document.querySelectorAll('.card');
+            
+            cards.forEach(function(card) {
+                var title = card.querySelector('.card-title').innerText.toLowerCase();
+                var cardBody = card.querySelector('.card-body');
+
+                if (title.includes(searchTerm)) {
+                    cardBody.classList.add('highlight');
+                    scrollIntoView(card);
+                    flashCard(cardBody);
+                } else {
+                    cardBody.classList.remove('highlight');
+                }
+            });
+        }
+
+        function scrollIntoView(element) {
+            element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+
+        function flashCard(element) {
+            element.style.animation = 'flash 1s';
+            setTimeout(() => {
+                element.style.animation = '';
+            }, 1000);
+        }
+    </script>
+</body>
+{% endblock %}
+This code includes the search bar, smooth scrolling to matching cards, and a flashing effect for matched cards. Customize the styles and animations as needed.
+
+User
+it is flashing all the cards why 
+ChatGPT
+I apologize for the oversight. It seems I made an error in the JavaScript code. Let's fix it to highlight only the matching card that is found during the search. Please replace the existing script with the corrected version below:
+
+html
+Copy code
+<script>
+    function searchCards() {
+        var searchTerm = document.getElementById("searchInput").value.toLowerCase();
+        var cards = document.querySelectorAll('.card');
+        
+        cards.forEach(function(card) {
+            var title = card.querySelector('.card-title').innerText.toLowerCase();
+            var cardBody = card.querySelector('.card-body');
+
+            if (title.includes(searchTerm)) {
+                // Clear previous highlights
+                cards.forEach(function(c) {
+                    c.querySelector('.card-body').classList.remove('highlight');
+                });
+
+                cardBody.classList.add('highlight');
+                scrollIntoView(card);
+                flashCard(cardBody);
+            } else {
+                cardBody.classList.remove('highlight');
+            }
+        });
+    }
+
+    function scrollIntoView(element) {
+        element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+
+    function flashCard(element) {
+        element.style.animation = 'flash 1s';
+        setTimeout(() => {
+            element.style.animation = '';
+        }, 1000);
+    }
+</script>
+Now, the corrected script ensures that only the matching card is highlighted and flashed. The function flashCard is applied only to the matching card's body. Please replace your existing script with this corrected version.
+
+User
+@keyframes flash {
+            0% { background-color: inherit; }
+            50% { background-color: #e8f40d; } /* Flashing color */
+            100% { background-color: inherit; }
+        } use this in searched card not in all cards
+
+2 / 2
+
+ChatGPT
+Certainly, if you want to apply the flashing effect only to the searched card, you can modify the script accordingly. Here's the updated JavaScript code:
+
+html
+Copy code
+<script>
+    function searchCards() {
+        var searchTerm = document.getElementById("searchInput").value.toLowerCase();
+        var cards = document.querySelectorAll('.card');
+        
+        cards.forEach(function(card) {
+            var title = card.querySelector('.card-title').innerText.toLowerCase();
+            var cardBody = card.querySelector('.card-body');
+
+            if (title.includes(searchTerm)) {
+                // Clear previous highlights and flashes
+                cards.forEach(function(c) {
+                    c.querySelector('.card-body').classList.remove('highlight');
+                    c.querySelector('.card-body').style.animation = '';
+                });
+
+                cardBody.classList.add('highlight');
+                scrollIntoView(card);
+                flashCard(cardBody);
+            } else {
+                cardBody.classList.remove('highlight');
+            }
+        });
+    }
+
+    function scrollIntoView(element) {
+        element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+
+    function flashCard(element) {
+        element.style.animation = 'flash 1s';
+        setTimeout(() => {
+            element.style.animation = '';
+        }, 1000);
+    }
+</script>
+This modification ensures that the flashing effect is only applied to the card that matches the search term. The animation property is cleared for all other cards to prevent them from flashing. Adjust the flashing color in the keyframes as needed.
+
+User
+ <div class="search-container">
+        
+        <input type="text" id="searchInput" placeholder="Search by title...">
+        <button onclick="searchCards()">Search</button>
     
-    
+    </div>i want that if i press enter it should scearch 
+ChatGPT
+Certainly, you can achieve this by adding an event listener for the 'keydown' event on the input field. If the key pressed is 'Enter' (key code 13), it will trigger the search function. Here's the modified HTML and script:
+
+html
+Copy code
+{% block body %}
+<body>
+    <div class="search-container">
+        <input type="text" id="searchInput" placeholder="Search by title..." onkeydown="handleSearchKeyPress(event)">
+        <button onclick="searchCards()">Search</button>
+    </div>
+
+    <div class="horizontal-cards">
+        {% for ob in notes %}
+            <!-- ... Your existing card template ... -->
+        {% endfor %}
+    </div>
+
+    <script>
+        function searchCards() {
+            var searchTerm = document.getElementById("searchInput").value.toLowerCase();
+            var cards = document.querySelectorAll('.card');
+            
+            cards.forEach(function(card) {
+                var title = card.querySelector('.card-title').innerText.toLowerCase();
+                var cardBody = card.querySelector('.card-body');
+
+                if (title.includes(searchTerm)) {
+                    cardBody.classList.add('highlight');
+                    scrollIntoView(card);
+                    flashCard(cardBody);
+                } else {
+                    cardBody.classList.remove('highlight');
+                }
+            });
+        }
+
+        function handleSearchKeyPress(event) {
+            if (event.key === 'Enter') {
+                searchCards();
+            }
+        }
+
+        function scrollIntoView(element) {
+            element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+
+        function flashCard(element) {
+            element.style.animation = 'flash 1s';
+            setTimeout(() => {
+                element.style.animation = '';
+            }, 1000);
+        }
+    </script>
     
 </body>
 {% endblock %}
