@@ -12,6 +12,30 @@
             background-color: #f0f0f0;
         }
 
+        .search-container {
+            margin: 20px;
+            text-align: center;
+        }
+
+        #searchInput {
+            padding: 10px;
+            font-size: 16px;
+        }
+
+        button {
+            padding: 10px;
+            font-size: 16px;
+            background-color: #4CAF50;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
         .horizontal-cards {
             display: flex;
             flex-wrap: wrap;
@@ -26,6 +50,7 @@
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
             border-radius: 8px;
             overflow: hidden;
+            transition: border 0.5s;
         }
 
         .card-body {
@@ -43,24 +68,25 @@
             margin-bottom: 15px;
         }
 
-        button {
-            padding: 10px;
-            font-size: 16px;
-            background-color: #4CAF50;
-            color: #fff;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
+        .highlight {
+            border: 2px solid #FFD700; /* Highlight the border for matched cards */
         }
 
-        button:hover {
-            background-color: #45a049;
+        @keyframes flash {
+            0% { background-color: inherit; }
+            50% { background-color: #FFFF00; } /* Flashing color */
+            100% { background-color: inherit; }
         }
     </style>
 {% endblock %}
 
 {% block body %}
 <body>
+    <div class="search-container">
+        <input type="text" id="searchInput" placeholder="Search by title...">
+        <button onclick="searchCards()">Search</button>
+    </div>
+
     <div class="horizontal-cards">
         {% for ob in notes %}
             <div class="card">
@@ -72,7 +98,6 @@
                         <input type="hidden" id="note_title" name="note_title" value="{{ ob.user_notes_title }}"/>
                         <input type="hidden" id="note_" name="note_" value="{{ ob.user_notes }}"/>
                         <button type="submit">View</button>
-                        
                     </form>
                     <form action="delete" method="post">
                         {% csrf_token %}
@@ -94,5 +119,36 @@
             </div>
         {% endfor %}
     </div>
+
+    <script>
+        function searchCards() {
+            var searchTerm = document.getElementById("searchInput").value.toLowerCase();
+            var cards = document.querySelectorAll('.card');
+            
+            cards.forEach(function(card) {
+                var title = card.querySelector('.card-title').innerText.toLowerCase();
+                var cardBody = card.querySelector('.card-body');
+
+                if (title.includes(searchTerm)) {
+                    cardBody.classList.add('highlight');
+                    scrollIntoView(card);
+                    flashCard(cardBody);
+                } else {
+                    cardBody.classList.remove('highlight');
+                }
+            });
+        }
+
+        function scrollIntoView(element) {
+            element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+
+        function flashCard(element) {
+            element.style.animation = 'flash 1s';
+            setTimeout(() => {
+                element.style.animation = '';
+            }, 1000);
+        }
+    </script>
 </body>
 {% endblock %}
