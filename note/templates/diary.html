@@ -74,7 +74,7 @@
 
         @keyframes flash {
             0% { background-color: inherit; }
-            50% { background-color: #0040ff; } /* Flashing color */
+            50% { background-color: #e8f40d; } /* Flashing color */
             100% { background-color: inherit; }
         }
     </style>
@@ -130,9 +130,10 @@
                 var cardBody = card.querySelector('.card-body');
     
                 if (title.includes(searchTerm)) {
-                    // Clear previous highlights
+                    // Clear previous highlights and flashes
                     cards.forEach(function(c) {
                         c.querySelector('.card-body').classList.remove('highlight');
+                        c.querySelector('.card-body').style.animation = '';
                     });
     
                     cardBody.classList.add('highlight');
@@ -155,6 +156,7 @@
             }, 1000);
         }
     </script>
+    
     
     
 </body>
