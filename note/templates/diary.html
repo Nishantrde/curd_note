@@ -128,8 +128,13 @@
             cards.forEach(function(card) {
                 var title = card.querySelector('.card-title').innerText.toLowerCase();
                 var cardBody = card.querySelector('.card-body');
-
+    
                 if (title.includes(searchTerm)) {
+                    // Clear previous highlights
+                    cards.forEach(function(c) {
+                        c.querySelector('.card-body').classList.remove('highlight');
+                    });
+    
                     cardBody.classList.add('highlight');
                     scrollIntoView(card);
                     flashCard(cardBody);
@@ -138,11 +143,11 @@
                 }
             });
         }
-
+    
         function scrollIntoView(element) {
             element.scrollIntoView({ behavior: 'smooth', block: 'start' });
         }
-
+    
         function flashCard(element) {
             element.style.animation = 'flash 1s';
             setTimeout(() => {
@@ -150,5 +155,6 @@
             }, 1000);
         }
     </script>
+    
 </body>
 {% endblock %}
