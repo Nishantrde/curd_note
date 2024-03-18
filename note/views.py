@@ -18,7 +18,7 @@ def login_page(request):
 
         if user.exists():
             messages.info(request, 'Username alredy taken')
-            return redirect('/')
+            return redirect('/notepad')
          
         user = User.objects.create(
             first_name = first_name,
