@@ -5,8 +5,10 @@ def send_email_token(email, token):
     try:
         subject = "Your account is verified"
         message = f"Click on the link to verify https://curd-note.vercel.app//notepad/verify/{token}"
+        # message = f"Click on the link to verify 127.0.0.1:8000/notepad/verify/{token}"
         email_form = settings.EMAIL_HOST_USER
         recipient_list = [email]
+
         send_mail(subject, message, email_form, recipient_list)
     except Exception as e:
         print("error", e)
