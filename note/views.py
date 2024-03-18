@@ -7,7 +7,35 @@ from django.contrib.auth import authenticate, login, logout
 from .utils import * 
 
 def login_page(request):
-    return render(request, "index.html")
+    if request.method == "POST":
+        first_name = request.POST.get('First_name')
+        last_name = request.POST.get('Last_name')
+        username = request.POST.get('username')
+        password = request.POST.get('password')
+        email = request.POST.get('email')
+
+        user = User.objects.filter(username = username)
+
+        if user.exists():
+            messages.info(request, 'Username alredy taken')
+            return redirect('/register')
+         
+        user = User.objects.create(
+            first_name = first_name,
+            last_name = last_name,
+            username = username
+        )
+
+        user.set_password(password)
+        user.save()
+        p_obj = UserProfile.objects.create(
+                user = user,
+                email_token = str(uuid.uuid4())
+            )
+
+        send_email_token(email, p_obj.email_token)
+        
+        return HttpResponse("We have send aN Email lol.....")
 
 def notepad(request, msg = None):
     name = request.POST.get("username")
@@ -83,33 +111,19 @@ def verify(request, token):
 
 def sign_in(request):
     if request.method == "POST":
-        first_name = request.POST.get('First_name')
-        last_name = request.POST.get('Last_name')
         username = request.POST.get('username')
-        email = request.POST.get('mail')
         password = request.POST.get('password')
+        if not User.objects.filter(username = username).exists():
+            messages.error(request, 'Invalid Username')
+            return redirect("/")
+        user = authenticate(username = username, password = password)
 
-        user_pro = User.objects.filter(username = username)
-
-        if user_pro.exists():
-            print("yes")
+        if user is None:
+            messages.error(request, "Invalid password")
+            return redirect("/")
         else:
-            user_pro = User.objects.create(username = username,
-                                        first_name = first_name,
-                                        last_name = last_name,
-                                        email = email,
-                                        )
-            user_pro.set_password(password)
-            user_pro.save()
-            p_obj = UserProfile.objects.create(
-                user = user_pro,
-                email_token = str(uuid.uuid4())
-            )
-
-            send_email_token(email, p_obj.email_token)
-            
-            
-            return HttpResponse("We have send aN Email lol.....")
+            login(request, user)
+            return redirect("/notepad")
     
     return render(request, "sign_in.html")
 
