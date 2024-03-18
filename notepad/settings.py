@@ -119,6 +119,15 @@ STATICFILES_DIRS = [os.path.join(BASE_DIR,'static')]
 
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles_build', 'static')
 
+# AUTH_USER_MODEL = 'note.User'
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_USE_TLS = True
+EMAIL_PORT = 587
+EMAIL_HOST_USER = 'nishant.garg.dev@gmail.com'#sender's email-id
+EMAIL_HOST_PASSWORD = 'dwrx hipv uggu ntyd'#password associated with above email-id
+
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field

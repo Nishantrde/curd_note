@@ -84,20 +84,20 @@
             {% endif %}        
             {% if title is None %}
             <input type="hidden" id="name" name="name" value="{{ name }}"/>
-            <input type="hidden" id="id" name="id" value="{{ id }}"/>
+            
             {% else %}
             <input type="hidden" id="name" name="name" value="{{ name }}"/>
-            <input type="hidden" id="id" name="id" value="{{ id }}"/>
-            <input type="hidden" id="title" name="title" value="{{ title }}"/>
             {% endif %}
+            <input type="hidden" id="msg" name="msg" value="{{ msg }}"/>
+            <input type="hidden" id="prv_title" name="prv_title" value="{{ prv_title }}"/>
             <button type="submit">Save</button>
+            
         </form>
     </div>
     <div class="form-container">
         <form action="diary"  method="post">
             {% csrf_token %}
             <input type="hidden" id="name" name="name" value="{{ name }}"/>
-            <input type="hidden" id="id" name="id" value="{{ id }}"/>
             <button class="diary-btn" type="submit">Diary</button>
         </form>
     </div>

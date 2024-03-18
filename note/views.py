@@ -1,46 +1,41 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, HttpResponse
 from note.models import *
+from django.contrib.auth.models import User
+from django.contrib import messages
+import uuid
+from django.contrib.auth import authenticate, login, logout
+from .utils import * 
 
-def index(request):
+def login_page(request):
     return render(request, "index.html")
 
 def notepad(request, msg = None):
-    name = request.POST.get("name")
-    id = request.POST.get("id")
-    user_dict = {"name":name, "id":id, "title":None, "notes":None}
-    if msg == "update":
-        title = request.POST.get("title")
-        notes = request.POST.get("notes")
-        return render(request, "notepad.html", {"name":name, "id":id, "title":title, "notes":notes})
-    elif request.POST.get("log"):
-        obj = User.objects.create(user_name = name, user_id = id)
-        obj.save()
-        print(obj.user_id)
-        return render(request, "notepad.html", user_dict)
-    elif name == None:
-        obj = User.objects.get(user_id = id)
-        nam = obj.user_name
-        return render(request, "notepad.html", {"name":nam, "id":id})
-    elif User.objects.get(user_id = id, user_name = name):
-        return render(request, "notepad.html", user_dict)
-    else:
-        return render(request, "error.html")
+    name = request.POST.get("username")
+
+    return render(request, "notepad.html", {"name":name})
+    
+    # user_dict = {"name":username, "id":id, "title":None, "notes":None}
+        
+    # else:
+    #     return render(request, "error.html")
 
 
 def save(request):
-    name = request.POST.get("name")
-    id = request.POST.get("id")
+    username = request.POST.get("name")
     user_notes = request.POST.get("notes")
     user_title = request.POST.get("note_title")
-    title = request.POST.get("title")
+    prv_title = request.POST.get("prv_title")
 
-    user_dict = {"name":name, "id":id}
+    user_dict = {"name":username,"prv_title":user_title, "title":user_title, "notes":user_notes}
 
     user_notes = user_notes.replace('\n', '<br>')
-    if Notes.objects.filter(user_notes_title = title):
-        Notes.objects.filter(user_notes_title = title).update(user_id = id, user_notes_title = user_title, user_notes = user_notes)
+    
+    if request.POST.get("msg") == "update":
+        print(request.POST.get("msg"))
+        user_dict["msg"] = "update"
+        Notes.objects.filter(user_notes_title = prv_title).update(profile_name = username, user_notes_title = user_title, user_notes = user_notes)
     else:
-        obj2 = Notes.objects.create(user_id = id, user_notes_title = user_title, user_notes = user_notes)
+        obj2 = Notes.objects.create(profile_name = username, user_notes_title = user_title, user_notes = user_notes)
         obj2.save()
     
     return render(request, "notepad.html", user_dict)
@@ -52,12 +47,15 @@ def delete(request):
     return diary(request)
 
 def update(request):
-    return notepad(request, "update")
+    username = request.POST.get("username")
+    title = request.POST.get("title")
+    notes = request.POST.get("notes")
+    print("lol_ok")
+    return render(request, "notepad.html", {"name":username,"prv_title":title, "title":title, "notes":notes, "msg":"update"})
 
 def diary(request):
-    id = request.POST.get("id")
     name = request.POST.get("name")
-    obj = Notes.objects.filter(user_id=id)
+    obj = Notes.objects.filter(profile_name=name)
     # for ob in obj:
     #     print("here ", ob.user_notes)
     return render(request, "diary.html", {"notes":obj, "id":id, "name":name})
@@ -69,7 +67,50 @@ def note_(request):
     user_dict = {"title":title, "notes":note}
     return render(request, "user_note.html", user_dict)
 
+def log_out(request):
+    logout(request)
+    return redirect('/')
+
+def verify(request, token):
+    try:
+        obj = UserProfile.objects.get(email_token = token)
+        obj.is_verified = True
+        obj.save()
+        print(token)
+        return render(request, "sign_in.html")
+    except Exception as e:
+        return 
+
 def sign_in(request):
+    if request.method == "POST":
+        first_name = request.POST.get('First_name')
+        last_name = request.POST.get('Last_name')
+        username = request.POST.get('username')
+        email = request.POST.get('mail')
+        password = request.POST.get('password')
+
+        user_pro = User.objects.filter(username = username)
+
+        if user_pro.exists():
+            print("yes")
+        else:
+            user_pro = User.objects.create(username = username,
+                                        first_name = first_name,
+                                        last_name = last_name,
+                                        email = email,
+                                        )
+            user_pro.set_password(password)
+            user_pro.save()
+            p_obj = UserProfile.objects.create(
+                user = user_pro,
+                email_token = str(uuid.uuid4())
+            )
+
+            send_email_token(email, p_obj.email_token)
+            
+            
+            return HttpResponse("We have send aN Email lol.....")
+    
     return render(request, "sign_in.html")
 
 

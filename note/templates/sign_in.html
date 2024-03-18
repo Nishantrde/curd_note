@@ -1,93 +1,46 @@
 {% extends "base.html" %}
-{% block title %}
-    <title>Login Page</title>
-{% endblock %}
+
 {% block style %}
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f4f4;
-            text-align: center;
-            margin: 0;
-            padding: 0;
-        }
-
-        .login-container {
-            width: 300px;
-            margin: 150px auto;
-            background-color: #fff;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        }
-
-        .login-container h2 {
-            color: #333;
-        }
-
-        .login-form {
-            margin-top: 20px;
-        }
-
-        .form-group {
-            margin-bottom: 20px;
-        }
-
-        .form-group label {
-            display: block;
-            font-weight: bold;
-            margin-bottom: 5px;
-        }
-
-        .form-group input {
-            width: 100%;
-            padding: 8px;
-            box-sizing: border-box;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-        }
-
-        .form-group button {
-            background-color: #4caf50;
-            color: #fff;
-            padding: 10px;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-        }
-
-        .form-group button:hover {
-            background-color: #45a049;
-        }
-
-    </style>
+{% load static %}
+<link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'css/nav.css' %}">
 {% endblock %}
-</head>
+
+{% block title %}
+<title>Login</title>
+{% endblock %}
+
 {% block body %}
 <body>
-
-<div class="login-container">
-    <h2>Nishant</h2>
-    <form class="login-form" action="note" method="post">
-        {% csrf_token %}
-        <div class="form-group">
-            <label for="username">Username:</label>
-            <input type="text" id="name" name="name" required>
+  <div class="navbar">
+    {% if user.is_authenticated %}
+      <a href="/logout">Logout</a>
+    {% else %}
+      <a href="/">Login</a>
+    {% endif %}
+  </div>
+    <form action="/notepad/note" method="post">
+      <h1>Login</h1>
+      {% csrf_token %}
+      <hr>
+      {% if messages %}
+        <div class="alert alert-primary" role="alert">
+          {% for message in messages %}
+            {{ message }}
+          {% endfor %}
         </div>
-
-        <div class="form-group">
-            <label for="id">ID:</label>
-            <input type="text" id="id" name="id" required>
-            
+      {% endif %}
+        <div class="mb-3">
+          <label for="exampleInputEmail1" class="form-label">Username</label>
+          <input type="text" class="form-control" name="username" aria-describedby="emailHelp">
+          <div class="form-text">We'll never share your email with anyone else.</div>
         </div>
-
-        <div class="form-group">
-            <input type="hidden" id="lol" name="lol" value="lol">
-            <button type="submit">Sign in</button>
+        <div class="mb-3">
+          <label for="exampleInputPassword1" class="form-label">Password</label>
+          <input type="password" name="password" class="form-control" id="exampleInputPassword1">
         </div>
-    </form>
-</div>
-
+        
+        <button type="submit" class="btn btn-primary">Login</button>
+      </form>
 </body>
 {% endblock %}
-
