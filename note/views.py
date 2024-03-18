@@ -18,7 +18,7 @@ def login_page(request):
 
         if user.exists():
             messages.info(request, 'Username alredy taken')
-            return redirect('/register')
+            return redirect('/')
          
         user = User.objects.create(
             first_name = first_name,
