@@ -36,6 +36,7 @@ def login_page(request):
         send_email_token(email, p_obj.email_token)
         
         return HttpResponse("We have send aN Email lol.....")
+    return render(request, "index.html")
 
 def notepad(request, msg = None):
     name = request.POST.get("username")
