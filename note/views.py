@@ -116,12 +116,12 @@ def sign_in(request):
         password = request.POST.get('password')
         if not User.objects.filter(username = username).exists():
             messages.error(request, 'Invalid Username')
-            return redirect("/notepad")
+            return redirect("/notepad/")
         
         else:
             user = authenticate(username = username, password = password)
             login(request, user)
-            return redirect("/notepad")
+            return redirect("/notepad/")
     
     return render(request, "sign_in.html")
 
