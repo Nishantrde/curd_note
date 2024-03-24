@@ -67,7 +67,7 @@ def save(request):
     else:
         obj2 = Notes.objects.create(profile_name = username, user_notes_title = user_title, user_notes = user_notes)
         obj2.save()
-        return render(request, "notepad.html")
+        return render(request, "notepad.html", {"name" : username})
     
 
 def delete(request):
