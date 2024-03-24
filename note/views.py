@@ -118,10 +118,14 @@ def sign_in(request):
             messages.error(request, 'Invalid Username')
             return redirect("/notepad/")
         
+        if user is None:
+            messages.error(request, "Invalid password")
+            return redirect("/notepad/")
+
         else:
             user = authenticate(username = username, password = password)
             login(request, user)
-            return redirect("/notepad/")
+            return redirect(request, "/notepad/note")
     
     return render(request, "sign_in.html")
 
