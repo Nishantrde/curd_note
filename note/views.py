@@ -127,7 +127,7 @@ def sign_in(request):
         else:
 
             login(request, user)
-            return render(request, "notepad.html")
+            return render(request, "notepad.html", {"name" : username})
     
     return render(request, "sign_in.html")
 
