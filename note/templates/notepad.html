@@ -68,7 +68,9 @@
 
 {% block body %}
 <body>
+    <h2>{{ name }}</h2>
     <div class="container">
+        
         <form action="save" method="post">
             {% csrf_token %}
             {% if title is None %}
