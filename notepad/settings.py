@@ -126,7 +126,7 @@ EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_USE_TLS = True
 EMAIL_PORT = 587
 EMAIL_HOST_USER = 'nishant.garg.dev@gmail.com'#sender's email-id
-EMAIL_HOST_PASSWORD = 'dwrx hipv uggu ntyd'#password associated with above email-id
+EMAIL_HOST_PASSWORD = 'ojap xxvt enmu jwox'#password associated with above email-id
 
 
 # Default primary key field type
