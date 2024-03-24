@@ -38,7 +38,7 @@ def login_page(request):
         return HttpResponse("We have send aN Email lol.....")
     return render(request, "index.html")
 
-def notepad(request, msg = None):
+def notepad(request):
     name = request.POST.get("username")
 
     return render(request, "notepad.html", {"name":name})
@@ -126,7 +126,7 @@ def sign_in(request):
         else:
             user = authenticate(username = username, password = password)
             login(request, user)
-            return redirect(request, "/notepad/note")
+            return redirect("/notepad/note")
     
     return render(request, "sign_in.html")
 
