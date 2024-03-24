@@ -126,7 +126,7 @@ def sign_in(request):
         else:
             user = authenticate(username = username, password = password)
             login(request, user)
-            return redirect("/notepad/note")
+            return render(request, "notepad.html")
     
     return render(request, "sign_in.html")
 
