@@ -19,7 +19,7 @@
       <a href="/">Login</a>
     {% endif %}
   </div>
-    <form action="/notepad/note" method="post">
+    <form action="/notepad" method="post">
       <h1>Login</h1>
       {% csrf_token %}
       <hr>
@@ -31,8 +31,8 @@
         </div>
       {% endif %}
         <div class="mb-3">
-          <label for="exampleInputEmail1" class="form-label">Username</label>
-          <input type="text" class="form-control" name="username" aria-describedby="emailHelp">
+          <label class="form-label">Username</label>
+          <input type="text" class="form-control" name="username">
           <div class="form-text">We'll never share your email with anyone else.</div>
         </div>
         <div class="mb-3">
