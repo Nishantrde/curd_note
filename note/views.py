@@ -117,7 +117,8 @@ def sign_in(request):
         if not User.objects.filter(username = username).exists():
             messages.error(request, 'Invalid Username')
             return redirect("/notepad/")
-        
+        user = authenticate(username = username, password = password)
+
         if user is None:
             messages.error(request, "Invalid password")
             return redirect("/notepad/")
