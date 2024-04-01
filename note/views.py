@@ -77,7 +77,7 @@ def delete(request):
     return diary(request)
 
 def update(request):
-    username = request.POST.get("username")
+    username = request.POST.get("name")
     title = request.POST.get("title")
     notes = request.POST.get("notes")
     print("lol_ok")
