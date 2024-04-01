@@ -5,7 +5,9 @@ from django.contrib import messages
 import uuid
 from django.contrib.auth import authenticate, login, logout
 from .utils import * 
+from django.contrib.auth.decorators import login_required
 
+@login_required(login_url="/")
 def login_page(request):
     if request.method == "POST":
         first_name = request.POST.get('First_name')
