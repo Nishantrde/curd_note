@@ -7,8 +7,8 @@ from . import settings
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('',include("shadow.urls")),
-    path('notepad/',include("note.urls"))
+    path('prac/',include("shadow.urls")),
+    path('',include("note.urls"))
 ]
 
 urlpatterns += static(settings.STATIC_URL,document_root = settings.STATIC_ROOT)

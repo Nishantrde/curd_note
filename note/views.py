@@ -18,7 +18,7 @@ def login_page(request):
 
         if user.exists():
             messages.info(request, 'Username alredy taken')
-            return redirect('/notepad/login')
+            return redirect('/login')
          
         user = User.objects.create(
             first_name = first_name,
@@ -117,12 +117,12 @@ def sign_in(request):
         password = request.POST.get('password')
         if not User.objects.filter(username = username).exists():
             messages.error(request, 'Invalid Username')
-            return redirect("/notepad/")
+            return redirect("/")
         user = authenticate(username = username, password = password)
 
         if user is None:
             messages.error(request, "Invalid password")
-            return redirect("/notepad/")
+            return redirect("/")
 
         else:
 
