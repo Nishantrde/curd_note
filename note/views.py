@@ -62,7 +62,7 @@ def save(request):
     if request.POST.get("msg") == "update":
         print(request.POST.get("msg"))
         user_dict["msg"] = "update"
-        Notes.objects.filter(user_notes_title = prv_title).update(profile_name = username, user_notes_title = user_title, user_notes = user_notes)
+        Notes.objects.filter(user_notes_title = prv_title, profile_name = username).update(profile_name = username, user_notes_title = user_title, user_notes = user_notes)
         return render(request, "notepad.html", user_dict)
     else:
         obj2 = Notes.objects.create(profile_name = username, user_notes_title = user_title, user_notes = user_notes)
