@@ -1,65 +1,8 @@
 {% extends "base.html" %}
 {% block style %}
-    <style>
-        body {
-            margin: 0;
-            padding: 0;
-            font-family: 'Courier New', Courier, monospace;
-            background-color: #f8f8f8;
-            color: #333;
-        }
+{% load static %}
+<link rel="stylesheet" type="text/css" href="{% static 'css/notepad.css' %}">
 
-        .container {
-            width: 60%;
-            margin: 50px auto;
-            background-color: #fff;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        }
-
-        textarea {
-            width: calc(100% - 20px);
-            font-size: 16px;
-            padding: 10px;
-            margin-bottom: 20px;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-            box-sizing: border-box;
-        }
-
-        textarea#note_title {
-            height: 30px;
-        }
-
-        button {
-            padding: 12px 20px;
-            font-size: 16px;
-            background-color: #4CAF50;
-            color: #fff;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-        }
-
-        button:hover {
-            background-color: #45a049;
-        }
-
-        /* Additional styling for the "Diary" button */
-        div.form-container {
-            margin-top: 20px;
-            text-align: center;
-        }
-
-        button.diary-btn {
-            background-color: #3498db;
-        }
-
-        button.diary-btn:hover {
-            background-color: #2980b9;
-        }
-    </style>
 {% endblock %}
 
 {% block title %}
