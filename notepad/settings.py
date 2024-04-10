@@ -25,6 +25,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.sites',
+    'django_google_sso',
     
 ]
 EXTERNAL_APPS = [
@@ -128,6 +130,14 @@ EMAIL_PORT = 587
 EMAIL_HOST_USER = 'nishant.garg.dev@gmail.com'#sender's email-id
 EMAIL_HOST_PASSWORD = 'ojap xxvt enmu jwox'#password associated with above email-id
 
+
+GOOGLE_SSO_CLIENT_ID = "981952283120-j92m4j8q4coieqd12ck3q36g8hnnh6v5.apps.googleusercontent.com"
+GOOGLE_SSO_PROJECT_ID = "note-419702"
+GOOGLE_SSO_CLIENT_SECRET = "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"
+
+GOOGLE_SSO_ALLOWABLE_DOMAINS = ["gmail.com"]
+
+GOOGLE_SSO_NEXT_URL = 'main_note:login_page'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field

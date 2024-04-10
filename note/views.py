@@ -6,9 +6,25 @@ import uuid
 from django.contrib.auth import authenticate, login, logout
 from .utils import * 
 from django.contrib.auth.decorators import login_required
+# from django.http import JsonResponse, HttpRequest
 
-
+# def login_page(request: HttpRequest) -> JsonResponse:
 def login_page(request):
+    if request.user:
+        user = request.user
+        print(user.username)
+        username = user.username
+        user_prop = User.objects.filter(username = username)
+        if not user_prop.exists():
+            user = User.objects.create(
+                first_name = first_name,
+                last_name = last_name,
+                username = username,
+                email = email
+            )
+            user.save()
+        return sign_in(request)
+    
     if request.method == "POST":
         first_name = request.POST.get('First_name')
         last_name = request.POST.get('Last_name')
@@ -37,18 +53,19 @@ def login_page(request):
 
         send_email_token(email, p_obj.email_token)
         
-        return HttpResponse("We have send aN Email lol.....")
+        return HttpResponse("We have send an Email.....")
     return render(request, "index.html")
 @login_required(login_url="/")
-def notepad(request):
-    name = request.POST.get("username")
+# def notepad(request):
+#     print("here ",request)
+#     name = request.POST.get("username")
 
-    return render(request, "notepad.html", {"name":name})
+#     return render(request, "notepad.html", {"name":name})
     
-    # user_dict = {"name":username, "id":id, "title":None, "notes":None}
+#     # user_dict = {"name":username, "id":id, "title":None, "notes":None}
         
-    # else:
-    #     return render(request, "error.html")
+#     # else:
+#     #     return render(request, "error.html")
 
 
 def save(request):
@@ -114,7 +131,15 @@ def verify(request, token):
         return 
 
 def sign_in(request):
+    if str(request.user) != "AnonymousUser":
+            user = request.user
+            username = user.username
+            return render(request, "notepad.html", {"name" : username})
     if request.method == "POST":
+        if request.POST.get("re_dict"):
+            user = request.user
+            username = user.username
+            return render(request, "notepad.html", {"name" : username})
         username = request.POST.get('username')
         password = request.POST.get('password')
         if not User.objects.filter(username = username).exists():
@@ -127,7 +152,6 @@ def sign_in(request):
             return redirect("/")
 
         else:
-
             login(request, user)
             return render(request, "notepad.html", {"name" : username})
     
