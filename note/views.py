@@ -17,10 +17,10 @@ def login_page(request):
         user_prop = User.objects.filter(username = username)
         if not user_prop.exists():
             user = User.objects.create(
-                first_name = first_name,
-                last_name = last_name,
-                username = username,
-                email = email
+                first_name = user.first_name,
+                last_name = user.last_name,
+                username = user.username,
+                email = user.email
             )
             user.save()
         return sign_in(request)
