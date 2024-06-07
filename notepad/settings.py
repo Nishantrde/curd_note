@@ -137,9 +137,9 @@ EMAIL_HOST_USER = 'nishant.garg.dev@gmail.com'#sender's email-id
 EMAIL_HOST_PASSWORD = 'ojap xxvt enmu jwox'#password associated with above email-id
 
 
-GOOGLE_SSO_CLIENT_ID = '981952283120-j92m4j8q4coieqd12ck3q36g8hnnh6v5.apps.googleusercontent.com'
-GOOGLE_SSO_PROJECT_ID = 'note-419702'
-GOOGLE_SSO_CLIENT_SECRET = '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'
+GOOGLE_SSO_CLIENT_ID = '77740828649-ca8d90ct99csplpmcfnf6ms834p8k7vc.apps.googleusercontent.com'
+GOOGLE_SSO_PROJECT_ID = 'note-425702'
+GOOGLE_SSO_CLIENT_SECRET = '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'
 
 GOOGLE_SSO_ALLOWABLE_DOMAINS = ["gmail.com"]
 
